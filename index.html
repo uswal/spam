@@ -1,70 +1,298 @@
 <html>
   <body>
   <pre>
-  #mapping
-emails=['pooja@', '@divya', 'karthik@gmail', 'sai@gmail.com', 'gautham@hotmail.com']
-def valid_mail(mail):
-    if(mail.find('@') > -1 and mail.endswith(".com") and mail[0].isalpha()):
-        return True
-    else:
-        return False
+  //Number of nodes
+  #include<stdio.h>
+#include<stdlib.h>
 
-op = (map(valid_mail, emails))
-for x in op:
-    print(x)
+struct node
+{
+	int data;
+	struct node *link;
+};
 
-#decorators
-def calculate(func):
-    def inner(x,y):
-        if(x == 0 or y == 0):
-            print("Invalid input")
-            return 0
-        else:
-            return func(x,y)
-    return inner
+struct node *top=NULL;
+void push();
+void pop();
+void display();
 
-@calculate
-def add(x,y):
-    return x + y
-@calculate
-def sub(x,y):
-    return x - y
-@calculate
-def mul(x,y):
-    return x * y
-@calculate
-def div(x,y):
-    return x/y
-print(div(5,6))
+int main()
+{
+	int choice;
+	while(1)
+	{
+		printf("enter choice\n1.push\n2.pop\n3.check no of nodes\n4.exit");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+			case 1:
+				push();
+				break;
+		    case 2:
+		    	pop();
+		    	break;
+			case 3:
+				display();
+				break;
+			case 4:
+				exit(0);
+			default:
+				printf("invalid choice");
+		};
+	}
+}
 
-#lambda
-largest = lambda a,b:  a >= b
-#a
-a = input("Enter first: ")
-b = input("enter second: ")
-if(largest(a,b)):
-    print(a, "is the largest")
-else:
-    print(b, "is the largest")
 
-#matrix
-#NROM
-from functools import reduce
-import math
-m = [[1,2,3],[4,5,6],[7,8,9]]
-def elements():
-    a = []
-    for x in range(len(m)):
-        for y in range(len(m[x])):
-            a.append(m[x][y])
-    return a
-x = math.sqrt(reduce(lambda a,b : a + b,map(lambda x: x * x,elements())))
-print("%0.2f"%x)
+void push()
+{
+	 int ele;
+	 struct node *newnode;
+	 newnode=(struct node*)malloc(sizeof(struct node));
+	 printf("enter the element");
+	 scanf("%d",&ele);
+	 newnode->data=ele;
+	 
+	 newnode->link=top;
+	 top=newnode;
+	 //printf("total nodes=%d",count);
+}
 
-#TRACE
-m = [[1,2,3],[4,5,6],[7,8,9]]
-sum = reduce(lambda a,b: a+b,[m[x][x] for x in range(len(m))])
-print(sum)
+void pop()
+{
+	if(top==NULL)
+	{
+		printf("Stack is empty\n");
+	}
+	else
+	{
+		
+		printf("Deleted Element=%d",top->data);
+		top=top->link;
+	}
+}
+
+void display()
+{
+	int count=0;
+	struct node *temp;
+	temp=top;
+	if(top==NULL)
+	{
+		printf("underflow");
+	}
+	else
+	{
+		printf("element are............");
+		while(temp!=NULL)
+		{
+			printf("%d  ",temp->data);
+			temp=temp->link;
+			count++;
+		}
+		printf("\ntotal no of nodes=%d",count);
+	}
+}
+
+//Queue linked list
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+	int data;
+	struct node *link;
+};
+
+struct node *front;
+struct node *rear;
+
+void push();
+void pop();
+void display();
+
+int main()
+{
+	int choice;
+	while(1)
+	{
+		printf("enter the choice\n");
+		printf("1.push\n2.pop\n3.display\n4.exit");
+		scanf("%d",&choice);
+		
+		switch(choice)
+		{
+			case 1:
+				push();
+				break;
+				
+			case 2:
+				pop();
+				break;
+			case 3:
+				display();
+				break;
+			case 4:
+				exit(0);
+			default:
+				printf("invalid choice");
+		};
+	}
+}
+  void push(int ele)
+  {
+  	struct node *newnode;
+  	newnode=(struct node*)malloc(sizeof(struct node));
+  	printf("enter the element");
+  	scanf("%d",&ele);
+  	newnode->data=ele;
+  	newnode->link=NULL;
+  	if(front==NULL)
+  	{
+  	  front=newnode;
+	  rear=newnode;
+	  front->link=NULL;
+	  rear->link=NULL;	
+	}
+	else
+	  rear->link=newnode;
+	  rear=newnode;
+	  rear->link=NULL;
+  }
+  
+  void pop()
+  {
+  //	struct node *temp;
+  	if(front==NULL)
+  	{
+  	  printf("queue is underflow");	
+	}
+	else
+	{
+		printf("deleted element=%d",front->data);
+		front=front->link;
+	}
+	
+  }
+  
+  
+  void display()
+  {
+  	struct node *temp;
+  	temp=front;
+  	
+  	if(front==NULL)
+  	{
+  		printf("queue is empty\n");
+	}
+	else
+	{
+		while(temp!=NULL)
+		{ 
+		
+		printf("%d  ",temp->data);
+		temp=temp->link;
+		}
+	}
+  }
+
+//Stack linked list
+#include<stdio.h>
+#include<stdlib.h>
+
+
+
+
+struct node
+{
+	int data;
+	
+	struct node *link;
+	
+};
+ struct node *top=NULL;
+ 
+
+
+void push();
+void pop();
+void display();
+int main()
+{
+	int choice;
+	
+	while(1)
+	{
+		printf("\nEnter the choice\n");
+		printf("1.Push\n2.Pop\n3.Display\n4.Exit");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+			case 1:
+				push();
+				break;
+			case 2:
+				pop();
+				break;
+			case 3:
+				display();
+				break;
+			case 4:
+				exit(0);
+			default:
+				printf("Invalid choice");
+		};
+	}
+}
+void push(int ele)
+{
+	struct node *newnode;
+	newnode=(struct node*)malloc(sizeof(struct node));
+	printf("Enter the element");
+	scanf("%d",&ele);
+	
+	newnode->data=ele;
+	newnode->link=top;
+	top=newnode;
+	
+}
+void pop()
+{
+	if(top==NULL)
+	{
+		printf("Stack is empty\n");
+	}
+	else
+	{
+		
+		printf("Deleted Element=%d",top->data);
+		top=top->link;
+	}
+}
+void display()
+{
+	struct node *temp;
+	temp=top;
+	if(top==NULL)
+	{
+		printf("stack is empty\n");
+		
+	}
+	else
+	{
+		printf("All Elements are.........\n");
+		while(temp!=NULL)
+		{
+		
+		printf("%d  ",temp->data);
+		temp=temp->link;
+	    }
+	}
+	
+	
+}
+
+
+
 
   </pre>
   </body>
