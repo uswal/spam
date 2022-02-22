@@ -1,36 +1,36 @@
 <html>
   <body>
   <pre>
-  //Number of nodes
+  //insert node 
   #include<stdio.h>
 #include<stdlib.h>
-
 struct node
 {
 	int data;
-	struct node *link;
+	struct node *next;
+	struct node *prev;
 };
-
-struct node *top=NULL;
-void push();
-void pop();
+struct node *first=NULL;
+struct node *last=NULL;
+void insert();
+void insert_before_node();
+void delete();
 void display();
-
 int main()
 {
 	int choice;
 	while(1)
 	{
-		printf("enter choice\n1.push\n2.pop\n3.check no of nodes\n4.exit");
+		printf("\n1.insert\n2.insert before node\n3.display\n4.exit\n");
 		scanf("%d",&choice);
 		switch(choice)
 		{
 			case 1:
-				push();
+				insert();
 				break;
-		    case 2:
-		    	pop();
-		    	break;
+			case 2:
+				insert_before_node();
+				break;
 			case 3:
 				display();
 				break;
@@ -43,255 +43,203 @@ int main()
 }
 
 
-void push()
+void insert()
 {
-	 int ele;
-	 struct node *newnode;
-	 newnode=(struct node*)malloc(sizeof(struct node));
-	 printf("enter the element");
-	 scanf("%d",&ele);
-	 newnode->data=ele;
-	 
-	 newnode->link=top;
-	 top=newnode;
-	 //printf("total nodes=%d",count);
-}
-
-void pop()
-{
-	if(top==NULL)
-	{
-		printf("Stack is empty\n");
-	}
-	else
-	{
-		
-		printf("Deleted Element=%d",top->data);
-		top=top->link;
-	}
-}
-
-void display()
-{
-	int count=0;
-	struct node *temp;
-	temp=top;
-	if(top==NULL)
-	{
-		printf("underflow");
-	}
-	else
-	{
-		printf("element are............");
-		while(temp!=NULL)
-		{
-			printf("%d  ",temp->data);
-			temp=temp->link;
-			count++;
-		}
-		printf("\ntotal no of nodes=%d",count);
-	}
-}
-
-//Queue linked list
-#include<stdio.h>
-#include<stdlib.h>
-
-struct node
-{
-	int data;
-	struct node *link;
-};
-
-struct node *front;
-struct node *rear;
-
-void push();
-void pop();
-void display();
-
-int main()
-{
-	int choice;
-	while(1)
-	{
-		printf("enter the choice\n");
-		printf("1.push\n2.pop\n3.display\n4.exit");
-		scanf("%d",&choice);
-		
-		switch(choice)
-		{
-			case 1:
-				push();
-				break;
-				
-			case 2:
-				pop();
-				break;
-			case 3:
-				display();
-				break;
-			case 4:
-				exit(0);
-			default:
-				printf("invalid choice");
-		};
-	}
-}
-  void push(int ele)
-  {
-  	struct node *newnode;
-  	newnode=(struct node*)malloc(sizeof(struct node));
-  	printf("enter the element");
-  	scanf("%d",&ele);
-  	newnode->data=ele;
-  	newnode->link=NULL;
-  	if(front==NULL)
-  	{
-  	  front=newnode;
-	  rear=newnode;
-	  front->link=NULL;
-	  rear->link=NULL;	
-	}
-	else
-	  rear->link=newnode;
-	  rear=newnode;
-	  rear->link=NULL;
-  }
-  
-  void pop()
-  {
-  //	struct node *temp;
-  	if(front==NULL)
-  	{
-  	  printf("queue is underflow");	
-	}
-	else
-	{
-		printf("deleted element=%d",front->data);
-		front=front->link;
-	}
-	
-  }
-  
-  
-  void display()
-  {
-  	struct node *temp;
-  	temp=front;
-  	
-  	if(front==NULL)
-  	{
-  		printf("queue is empty\n");
-	}
-	else
-	{
-		while(temp!=NULL)
-		{ 
-		
-		printf("%d  ",temp->data);
-		temp=temp->link;
-		}
-	}
-  }
-
-//Stack linked list
-#include<stdio.h>
-#include<stdlib.h>
-
-
-
-
-struct node
-{
-	int data;
-	
-	struct node *link;
-	
-};
- struct node *top=NULL;
- 
-
-
-void push();
-void pop();
-void display();
-int main()
-{
-	int choice;
-	
-	while(1)
-	{
-		printf("\nEnter the choice\n");
-		printf("1.Push\n2.Pop\n3.Display\n4.Exit");
-		scanf("%d",&choice);
-		switch(choice)
-		{
-			case 1:
-				push();
-				break;
-			case 2:
-				pop();
-				break;
-			case 3:
-				display();
-				break;
-			case 4:
-				exit(0);
-			default:
-				printf("Invalid choice");
-		};
-	}
-}
-void push(int ele)
-{
+	int ele;
 	struct node *newnode;
 	newnode=(struct node*)malloc(sizeof(struct node));
-	printf("Enter the element");
+	printf("enter element");
 	scanf("%d",&ele);
-	
 	newnode->data=ele;
-	newnode->link=top;
-	top=newnode;
+	newnode->next=NULL;
+	newnode->prev=NULL;
+	if(first==NULL)
+	{
+		first=last=newnode;
+		
+	}
+	else
+	{
+		last->next=newnode;
+		newnode->prev=last;
+		
+		
+		last=newnode;
+	}
+}
+
+
+
+void insert_before_node()
+{
+	int num,ele;
+		struct node *newnode;
+		struct node *temp;
+	newnode=(struct node*)malloc(sizeof(struct node));
+		printf("enter element");
+	scanf("%d",&ele);
+	newnode->data=ele;
+	newnode->next=NULL;
+	newnode->prev=NULL;
 	
+	printf("\n enter the value of node before which new node is inserted");
+	scanf("%d",&num);
+	temp=first;
+	
+	struct node *temp1;
+	while(temp->data!=num)
+	{
+		temp1=temp;
+		temp=temp->next;
+	}
+	newnode->prev=temp1;
+	newnode->next=temp;
+	temp1->next=newnode;
+	temp->prev=newnode;
 }
-void pop()
-{
-	if(top==NULL)
-	{
-		printf("Stack is empty\n");
-	}
-	else
-	{
-		
-		printf("Deleted Element=%d",top->data);
-		top=top->link;
-	}
+
+ void display()
+ {
+ 	struct node *temp;
+ 	temp=first;
+ 	
+	 if(first==NULL)
+ 	{
+ 		printf("there is no ELEMENT");
+	 }
+	 else
+	 {
+	 	while(temp!=NULL)
+	 	{
+	 		printf("%d  ",temp->data);
+	 		temp=temp->next;
+		 }
+	 }
 }
-void display()
+
+
+
+
+
+//delete
+#include<stdio.h>
+#include<stdlib.h>
+struct node
 {
-	struct node *temp;
-	temp=top;
-	if(top==NULL)
+	int data;
+	struct node *next;
+	struct node *prev;
+};
+struct node *first=NULL;
+struct node *last=NULL;
+void insert();
+void delete();
+void spe_delete();
+void display();
+int main()
+{
+	int choice;
+	while(1)
 	{
-		printf("stack is empty\n");
-		
-	}
-	else
-	{
-		printf("All Elements are.........\n");
-		while(temp!=NULL)
+		printf("\n1.insert\n2.delete\n3.deleteAtSpecific\n4.display\n5.Exit\n");
+		scanf("%d",&choice);
+		switch(choice)
 		{
-		
-		printf("%d  ",temp->data);
-		temp=temp->link;
-	    }
+			case 1:
+				insert();
+				break;
+			case 2:
+				delete();
+				break;
+			case 3:
+				spe_delete();
+				break;
+			case 4:
+				display();
+				break;
+			case 5:
+				exit(0);
+			default:
+				printf("invalid choice");
+		};
 	}
-	
-	
 }
 
 
+void insert()
+{
+	int ele;
+	struct node *newnode;
+	newnode=(struct node*)malloc(sizeof(struct node));
+	printf("enter element");
+	scanf("%d",&ele);
+	newnode->data=ele;
+	newnode->next=NULL;
+	newnode->prev=NULL;
+	if(first==NULL)
+	{
+		first=last=newnode;
+		
+	}
+	else
+	{
+		last->next=newnode;
+		newnode->prev=last;
+		
+		
+		last=newnode;
+	}
+}
+
+void delete()
+{
+	if(first==NULL)
+	{	
+		printf("there is no ELEMENT");
+	}
+	else
+	{
+		printf("element is deleted=%d",first->data);
+		first=first->next;
+	}
+}
+
+void spe_delete()
+{
+	int pos,i=1;
+	struct node *temp;
+	temp=first;
+	printf("Enter position");
+	scanf("%d",&pos);
+	while(i<pos)
+	{
+		temp=temp->next;
+		i++;
+	}
+	printf("Deleted element=%d",temp->data);
+	temp->prev->next=temp->next;
+	temp->next->prev=temp->prev;
+	
+}
+
+ void display()
+ {
+ 	struct node *temp;
+ 	temp=first;
+ 	
+	 if(first==NULL)
+ 	{
+ 		printf("There is no ELEMENT");
+	 }
+	 else
+	 {
+	 	while(temp!=NULL)
+	 	{
+	 		printf("%d  ",temp->data);
+	 		temp=temp->next;
+		 }
+	 }
+}
 
 
   </pre>
