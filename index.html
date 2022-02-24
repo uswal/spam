@@ -1,245 +1,151 @@
 <html>
   <body>
   <pre>
-  //insert node 
-  #include<stdio.h>
-#include<stdlib.h>
-struct node
-{
-	int data;
-	struct node *next;
-	struct node *prev;
-};
-struct node *first=NULL;
-struct node *last=NULL;
-void insert();
-void insert_before_node();
-void delete();
-void display();
-int main()
-{
-	int choice;
-	while(1)
-	{
-		printf("\n1.insert\n2.insert before node\n3.display\n4.exit\n");
-		scanf("%d",&choice);
-		switch(choice)
-		{
-			case 1:
-				insert();
-				break;
-			case 2:
-				insert_before_node();
-				break;
-			case 3:
-				display();
-				break;
-			case 4:
-				exit(0);
-			default:
-				printf("invalid choice");
-		};
-	}
-}
 
 
-void insert()
-{
-	int ele;
-	struct node *newnode;
-	newnode=(struct node*)malloc(sizeof(struct node));
-	printf("enter element");
-	scanf("%d",&ele);
-	newnode->data=ele;
-	newnode->next=NULL;
-	newnode->prev=NULL;
-	if(first==NULL)
-	{
-		first=last=newnode;
-		
-	}
-	else
-	{
-		last->next=newnode;
-		newnode->prev=last;
-		
-		
-		last=newnode;
-	}
-}
+#FAN
+def incCheck(f):
+
+    def wrapper(self):
+
+        if self.speed==5:
+
+            self.speed=0
+
+        return f(self)
+
+    return wrapper
 
 
+def decCheck(f):
 
-void insert_before_node()
-{
-	int num,ele;
-		struct node *newnode;
-		struct node *temp;
-	newnode=(struct node*)malloc(sizeof(struct node));
-		printf("enter element");
-	scanf("%d",&ele);
-	newnode->data=ele;
-	newnode->next=NULL;
-	newnode->prev=NULL;
-	
-	printf("\n enter the value of node before which new node is inserted");
-	scanf("%d",&num);
-	temp=first;
-	
-	struct node *temp1;
-	while(temp->data!=num)
-	{
-		temp1=temp;
-		temp=temp->next;
-	}
-	newnode->prev=temp1;
-	newnode->next=temp;
-	temp1->next=newnode;
-	temp->prev=newnode;
-}
+    def wrapper(self):
 
- void display()
- {
- 	struct node *temp;
- 	temp=first;
- 	
-	 if(first==NULL)
- 	{
- 		printf("there is no ELEMENT");
-	 }
-	 else
-	 {
-	 	while(temp!=NULL)
-	 	{
-	 		printf("%d  ",temp->data);
-	 		temp=temp->next;
-		 }
-	 }
-}
+        if self.speed==1:
+
+            self.speed=6
+
+        return f(self)
+
+    return wrapper
 
 
+class Fan:
+
+    def _init_(self,name,speed=3):
+
+        self.name=name
+
+        self.speed=speed
+
+        
+
+    @incCheck
+
+    def increment(self):
+
+        self.speed+=1
+
+        
+
+    @decCheck
+
+    def decrement(self):
+
+        self.speed-=1
+
+        
+
+    def display(self):
+
+        print("FAN ",self.name , "RUNNING AT SPEED ",self.speed)
 
 
+name=input("Enter Classroom: ")
 
-//delete
-#include<stdio.h>
-#include<stdlib.h>
-struct node
-{
-	int data;
-	struct node *next;
-	struct node *prev;
-};
-struct node *first=NULL;
-struct node *last=NULL;
-void insert();
-void delete();
-void spe_delete();
-void display();
-int main()
-{
-	int choice;
-	while(1)
-	{
-		printf("\n1.insert\n2.delete\n3.deleteAtSpecific\n4.display\n5.Exit\n");
-		scanf("%d",&choice);
-		switch(choice)
-		{
-			case 1:
-				insert();
-				break;
-			case 2:
-				delete();
-				break;
-			case 3:
-				spe_delete();
-				break;
-			case 4:
-				display();
-				break;
-			case 5:
-				exit(0);
-			default:
-				printf("invalid choice");
-		};
-	}
-}
+fann=int(input("Enter Fan Number(1-6): "))
+
+print("Default speed of Fan is 3")
+
+if fann>0 and fann<=6:
+
+    a=Fan(fann)
+
+    while T:
+
+        print("The Classroom is ",name)
+
+        num=int(input("1.   Increment\n2.   Decrement\n3.   Display\n99. Exit\n\n  :"))
+
+        if(num is 1):
+
+            a.increment()
+
+            a.display()
+
+        elif(num is 2):
+
+            a.decrement()
+
+            a.display()
+
+        elif(num is 3):
+
+            a.display()
+
+        elif(num is 99):
+
+            a.display()
 
 
-void insert()
-{
-	int ele;
-	struct node *newnode;
-	newnode=(struct node*)malloc(sizeof(struct node));
-	printf("enter element");
-	scanf("%d",&ele);
-	newnode->data=ele;
-	newnode->next=NULL;
-	newnode->prev=NULL;
-	if(first==NULL)
-	{
-		first=last=newnode;
-		
-	}
-	else
-	{
-		last->next=newnode;
-		newnode->prev=last;
-		
-		
-		last=newnode;
-	}
-}
+#
+class Person:
+    
+    def getname(self):
+        
+        self.firstname = input("\nEnter your First Name: ")
+        self.lastname = input("\nEnter your Last Name: ")
+        
+        
+class Employee(Person):
+    
+    def print_Emp(self):
+        self.getname()
+        self.Design = input("\nEnter your Designation: ")
+        self.Dept = input("\nEnter your Department: ")
+        self.Exp = int(input("\nEnter your Experience: "))
+        
+class Payroll(Employee):
+    def print_dt(self):
+        self.print_Emp()
+        self.Ba = int(input("\nEnter your Basic Salary: "))
+        self.TA = int(input("\nEnter your TA: "))
+        self.DA = int(input("\nEnter your DA: "))
+        self.HRA = int(input("\nEnter your HRA: "))
+        
+    def print_gross(self):
+        
+        self.print_dt()
+        print("\nFirstname: ", self.firstname)
+        print("\nLastname: ", self.lastname)
+        
+        print("\nDesignation: ", self.Design)
+        print("\nDepartment: ", self.Dept)
+        print("\nExperience: ", self.Exp, " years")
+        
+        print("\nBasic Salary: ", self.Ba)
+        print("\nTA: ", self.TA)
+        print("\nDA: ", self.DA)
+        print("\nHRA: ", self.HRA)
+            
+        self.gr = self.Ba + self.TA + self.DA + self.HRA
+        print("\nGross Salary: ", self.gr)
 
-void delete()
-{
-	if(first==NULL)
-	{	
-		printf("there is no ELEMENT");
-	}
-	else
-	{
-		printf("element is deleted=%d",first->data);
-		first=first->next;
-	}
-}
 
-void spe_delete()
-{
-	int pos,i=1;
-	struct node *temp;
-	temp=first;
-	printf("Enter position");
-	scanf("%d",&pos);
-	while(i<pos)
-	{
-		temp=temp->next;
-		i++;
-	}
-	printf("Deleted element=%d",temp->data);
-	temp->prev->next=temp->next;
-	temp->next->prev=temp->prev;
-	
-}
+d1 = Payroll()
 
- void display()
- {
- 	struct node *temp;
- 	temp=first;
- 	
-	 if(first==NULL)
- 	{
- 		printf("There is no ELEMENT");
-	 }
-	 else
-	 {
-	 	while(temp!=NULL)
-	 	{
-	 		printf("%d  ",temp->data);
-	 		temp=temp->next;
-		 }
-	 }
-}
+d1.print_gross()
+    
 
 
   </pre>
