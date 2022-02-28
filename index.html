@@ -3,148 +3,168 @@
   <pre>
 
 
-#FAN
-def incCheck(f):
-
-    def wrapper(self):
-
-        if self.speed==5:
-
-            self.speed=0
-
-        return f(self)
-
-    return wrapper
-
-
-def decCheck(f):
-
-    def wrapper(self):
-
-        if self.speed==1:
-
-            self.speed=6
-
-        return f(self)
-
-    return wrapper
-
-
-class Fan:
-
-    def _init_(self,name,speed=3):
-
-        self.name=name
-
-        self.speed=speed
-
-        
-
-    @incCheck
-
-    def increment(self):
-
-        self.speed+=1
-
-        
-
-    @decCheck
-
-    def decrement(self):
-
-        self.speed-=1
-
-        
-
-    def display(self):
-
-        print("FAN ",self.name , "RUNNING AT SPEED ",self.speed)
-
-
-name=input("Enter Classroom: ")
-
-fann=int(input("Enter Fan Number(1-6): "))
-
-print("Default speed of Fan is 3")
-
-if fann>0 and fann<=6:
-
-    a=Fan(fann)
-
-    while T:
-
-        print("The Classroom is ",name)
-
-        num=int(input("1.   Increment\n2.   Decrement\n3.   Display\n99. Exit\n\n  :"))
-
-        if(num is 1):
-
-            a.increment()
-
-            a.display()
-
-        elif(num is 2):
-
-            a.decrement()
-
-            a.display()
-
-        elif(num is 3):
-
-            a.display()
-
-        elif(num is 99):
-
-            a.display()
-
-
-#
-class Person:
-    
-    def getname(self):
-        
-        self.firstname = input("\nEnter your First Name: ")
-        self.lastname = input("\nEnter your Last Name: ")
-        
-        
-class Employee(Person):
-    
-    def print_Emp(self):
-        self.getname()
-        self.Design = input("\nEnter your Designation: ")
-        self.Dept = input("\nEnter your Department: ")
-        self.Exp = int(input("\nEnter your Experience: "))
-        
-class Payroll(Employee):
-    def print_dt(self):
-        self.print_Emp()
-        self.Ba = int(input("\nEnter your Basic Salary: "))
-        self.TA = int(input("\nEnter your TA: "))
-        self.DA = int(input("\nEnter your DA: "))
-        self.HRA = int(input("\nEnter your HRA: "))
-        
-    def print_gross(self):
-        
-        self.print_dt()
-        print("\nFirstname: ", self.firstname)
-        print("\nLastname: ", self.lastname)
-        
-        print("\nDesignation: ", self.Design)
-        print("\nDepartment: ", self.Dept)
-        print("\nExperience: ", self.Exp, " years")
-        
-        print("\nBasic Salary: ", self.Ba)
-        print("\nTA: ", self.TA)
-        print("\nDA: ", self.DA)
-        print("\nHRA: ", self.HRA)
-            
-        self.gr = self.Ba + self.TA + self.DA + self.HRA
-        print("\nGross Salary: ", self.gr)
+  // Merge
+  #include <stdio.h>
+#include <stdlib.h>
+  
+/* A structure of linked list node */
+struct node {
+  int data;
+  struct node *next;
+} *LLOne, *LLTwo, *mergedLL;
+ 
+void initialize(){
+    LLOne = LLTwo = mergedLL = NULL;
+}
+/* 
+Given a Inserts a node in front of a singly linked list. 
+*/
+void insert(struct node **head, int num) {
+    /* Create a new Linked List node */
+    struct node* newNode = (struct node*) malloc(sizeof(struct node));
+    newNode->data  = num;
+    /* Next pointer of new node will point to head node of linked list  */
+    newNode->next = *head;
+    /* make new node as new head of linked list */
+    *head = newNode;
+    printf("Inserted Element : %d\n", num);
+}
+ 
+struct node* mergeLinkedList(struct node* LLOne, struct node* LLTwo){
+    struct node *resultHead, *resultTail, *temp;
+    resultHead = resultTail = NULL;
+    while(1){
+        /* */
+        if(LLOne == NULL){
+            resultTail->next = LLTwo;
+            break;
+        }
+         
+        if(LLTwo == NULL) {
+            resultTail->next = LLOne;
+            break;
+        }
+         
+        /* Check whether current node of 
+        which Linked list is smaller*/
+        if(LLOne->data <= LLTwo->data){
+            temp = LLOne;
+            LLOne = LLOne->next;
+        } else {
+            temp = LLTwo;
+            LLTwo = LLTwo->next;
+        }
+        /*Add smaller node to result linked list  */
+        if(resultHead == NULL){
+            resultHead = resultTail = temp;
+        } else {
+            resultTail->next = temp;
+            resultTail = temp;
+        }
+        resultTail->next = NULL;
+    }
+     
+    return resultHead;
+}
+ 
+/*
+Prints a linked list from head node till tail node 
+*/
+void printLinkedList(struct node *nodePtr) {
+  while (nodePtr != NULL) {
+     printf("%d", nodePtr->data);
+     nodePtr = nodePtr->next;
+     if(nodePtr != NULL)
+         printf("-->");
+  }
+}
+  
+int main() {
+    initialize();
+    /* Creating First linked List*/
+    insert(&LLOne, 9);  
+    insert(&LLOne, 6); 
+    insert(&LLOne, 3); 
+    insert(&LLOne, 1);
+    printLinkedList(LLOne);
+    printf("\n");
+    /* Creating Second linked List*/
+    insert(&LLTwo, 10);  
+    insert(&LLTwo, 6); 
+    insert(&LLTwo, 5); 
+    insert(&LLTwo, 2);
+    printLinkedList(LLTwo);
+    /* Merge Linked List */
+    mergedLL = mergeLinkedList(LLOne, LLTwo); 
+    printf("\nMerged Linked List\n");
+    printLinkedList(mergedLL);
+     
+    return 0;
+}
 
 
-d1 = Payroll()
+//2
+#include <stdio.h>
+#include<stdlib.h>
+/*
+    case 1:Insert at the begning
+    case 2:Insert in between
+    case 3:Insert at the end
+    case 4:Insert After a Node
 
-d1.print_gross()
+*/
+struct Node
+{
+    int data;
+    struct node *next; // Self refrencing structure
+};
+struct Node *insertAtTheBegning(struct Node *head, int data)
+{
+    struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
+    ptr->next = head;
+    ptr->data = data;
+    return ptr;
+}
+int insertAtEnd(){
+    return 0;
+}
+int traverseTheLinkedList(struct Node *head)
+{
+    while (head != NULL)
+    {
+        printf("%d\n", head->data);
+        head = head->next;
+    }
+}
+    struct Node *insertAtIndex(struct Node *head, int data){
+
+    }
+    int main()
+    {
+        struct Node *head;
+        struct Node *second;
+        struct Node *third;
+
+        head = (struct Node *)malloc(sizeof(struct Node));
+        second = (struct Node *)malloc(sizeof(struct Node));
+        third = (struct Node *)malloc(sizeof(struct Node));
+
+        printf("Enter the Value of 1st Node\n");
+        scanf("%d", &head->data);
+        head->next = second;
+
+        printf("Enter the Value of 2nd Node\n");
+        scanf("%d", &second->data);
+        second->next = third;
+
+        printf("Enter the Value of 3rd Node\n");
+        scanf("%d", &third->data);
+        third->next = NULL;
+        head = insertAtTheBegning(head, 65);
+        insertAtEnd();
+        traverseTheLinkedList(head);
+        return 0;
+    }
     
 
 
