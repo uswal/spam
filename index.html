@@ -2,28 +2,182 @@
   <body>
   <pre>
 
-class Err(Exception):
-    pass
+1.
+# Write a program to accept required details from the user to create a resume text file. Open the file in the editor for displaying / print
 
-class DatatypeException(Err):
-    pass
+def inputinfo():
+    name = input("Enter your name: ")
+    age = input("Enter your age: ")
+    address = input("Enter your address: ")
+    phone = input("Enter your phone number: ")
+    email = input("Enter your email: ")
+    education = input("Enter your education: ")
+    skills = input("Enter your skills: ")
+    experience = input("Enter your experience: ")
+    with open("resume.txt", "w") as f:
+        f.write("==============================================================\n")
+        f.write("\t\t\tResume Details\n")
+        f.write("==============================================================\n")
+        f.write("Name: " + name.capitalize() + "\n")
+        f.write("Age: " + age + "\n")
+        f.write("Address: " + address + "\n")
+        f.write("Phone: +91 " + phone[0:5] +" "+ phone[5:11]+ "\n")
+        f.write("Email: " + email + "\n")
+        f.write("Education: " + education.upper() + "\n")
+        f.write("Skills: " + skills + "\n")
+        f.write("Experience: " + experience + "\n")
+        f.write("==============================================================\n")
+    f.close()
+    
+def display():
+    with open("resume.txt", "r") as f:
+        print(f.read())
 
-n = int(input("Enter number of terms : "))
-lst = []
-for i in range(0,n):
-    try:
-        num = input("Enter number : ")
-        if not num.isdigit():
-            raise IntegerError
+def main():
+    inputinfo()
+    display()
 
-        print("{} Added to list!".format(num))
-        lst.append(num)
-    except DatatypeException:
-        print("Not a valid integer!")
+main()
 
 
-print(lst)
 
+2.
+# ATM Transactions for sb account
+
+balance = 5000
+
+def bank():
+    print("Welcome to the ATM")
+    print("Please enter your account number:")
+    account = input()
+    print("Enter your PIN:")
+    pin = input()
+    if account == "12345" and pin == "1234":
+        print("You are now logged in")
+        while(True):
+            print("Please choose from the following options:")
+            print("1. Check balance")
+            print("2. Withdraw cash")
+            print("3. Deposit funds")
+            print("4. Exit")
+            option = input()
+            if option == "1":
+                check_balance()
+            elif option == "2":
+                withdraw_bal()
+            elif option == "3":
+                deposit_bal()
+            elif option == "4":
+                print("Thank you for using the ATM")
+                exit()
+    else:
+        print("You entered an incorrect account number or PIN. Please try again.")
+        
+def info_person():
+    name = input("Enter your name: ")
+    aadhar = input("Enter your aadhar number: ")
+    mobile = input("Enter your mobile number: ")
+    print("Default Account number 12345")
+    with open("bank.csv", "w") as f:
+        f.write(name + "," + aadhar + "," + mobile+ "," + str(balance) +","+"12345"+ "\n")
+        
+
+def check_balance():
+    with open("bank.csv", "r") as f:
+        for line in f:
+            if "12345" in line:
+                balance = line.split(",")[3]
+                print("Your balance is: " + balance)
+    f.close()
+
+def withdraw_bal():
+    print("Enter the account number: ")
+    account = input()
+    print("Enter the amount to withdraw: ")
+    withdraw = input()
+    with open("bank.csv", "r") as f:
+        for line in f:
+            if account in line:
+                balance = line.split(",")[3]
+                if int(withdraw) <= int(balance):
+                    with open("bank.csv", "r") as f:
+                        for line in f:
+                            if account in line:
+                                balance = line.split(",")[3]
+                                balance = int(balance) - int(withdraw)
+                                print("Your new balance is: " + str(balance))
+                    f.close()
+                    with open("bank.csv","w") as f:
+                        f.write(line.replace(line.split(",")[3], str(balance)))
+                    f.close()
+                else:
+                    print("You do not have enough funds")
+                    
+def deposit_bal():
+    print("Enter the account number: ")
+    account = input()
+    print("Enter the amount to deposit: ")
+    deposit = input()
+    with open("bank.csv", "r") as f:
+        for line in f:
+            if account in line:
+                balance = line.split(",")[3]
+                with open("bank.csv", "r") as f:
+                    for line in f:
+                        if account in line:
+                            balance = line.split(",")[3]
+                            balance = int(balance) + int(deposit)
+                            print("Your new balance is: " + str(balance))
+                f.close()
+                with open("bank.csv", "w") as f:
+                    f.write(line.replace(line.split(",")[3], str(balance)))
+                f.close()
+                
+def main():
+    info_person()
+    bank()
+
+main()
+
+
+3.
+
+# Accept first name, last name, username, password. the username must be unique. this should be stored in a json file and the password should be encrypted. Fetch the data from username.
+
+import json
+
+def createuser():
+    fname= input("Enter your first name: ")
+    lname= input("Enter your last name: ")
+    username= input("Enter your username: ")
+    password = input("Enter your password: ")
+    name = fname + " " + lname
+    
+    with open("user.json", "r") as f:
+        if username in f:
+            print("Username already exists")
+    f.close()
+    with open("user.json","w") as f:
+        json.dump({"name": name, "username": username, "password": password}, f)
+    f.close()
+    
+    
+def search_username():
+    username = input("Enter username To Find: ")
+    with open("user.json", "r") as f:
+        data = json.load(f)
+        for key, value in data.items():
+            if username in value:
+                # print(key, value)
+                # print("Name: " + value["name"])
+                # print("Username: " + value["username"])
+                print(value)
+        else:
+            print("Username not found")
+    f.close()
+    
+createuser()
+search_username()
 
   </pre>
   </body>
