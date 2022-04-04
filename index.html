@@ -2,182 +2,118 @@
   <body>
   <pre>
 
-1.
-# Write a program to accept required details from the user to create a resume text file. Open the file in the editor for displaying / print
+// Binary Search Tree operations in C
 
-def inputinfo():
-    name = input("Enter your name: ")
-    age = input("Enter your age: ")
-    address = input("Enter your address: ")
-    phone = input("Enter your phone number: ")
-    email = input("Enter your email: ")
-    education = input("Enter your education: ")
-    skills = input("Enter your skills: ")
-    experience = input("Enter your experience: ")
-    with open("resume.txt", "w") as f:
-        f.write("==============================================================\n")
-        f.write("\t\t\tResume Details\n")
-        f.write("==============================================================\n")
-        f.write("Name: " + name.capitalize() + "\n")
-        f.write("Age: " + age + "\n")
-        f.write("Address: " + address + "\n")
-        f.write("Phone: +91 " + phone[0:5] +" "+ phone[5:11]+ "\n")
-        f.write("Email: " + email + "\n")
-        f.write("Education: " + education.upper() + "\n")
-        f.write("Skills: " + skills + "\n")
-        f.write("Experience: " + experience + "\n")
-        f.write("==============================================================\n")
-    f.close()
-    
-def display():
-    with open("resume.txt", "r") as f:
-        print(f.read())
+#include <stdio.h>
+#include <stdlib.h>
 
-def main():
-    inputinfo()
-    display()
+struct node {
+  int key;
+  struct node *left, *right;
+};
 
-main()
+// Create a node
+struct node *newNode(int item) {
+  struct node *temp = (struct node *)malloc(sizeof(struct node));
+  temp->key = item;
+  temp->left = temp->right = NULL;
+  return temp;
+}
 
+// Inorder Traversal
+void inorder(struct node *root) {
+  if (root != NULL) {
+    // Traverse left
+    inorder(root->left);
 
+    // Traverse root
+    printf("%d -> ", root->key);
 
-2.
-# ATM Transactions for sb account
+    // Traverse right
+    inorder(root->right);
+  }
+}
 
-balance = 5000
+// Insert a node
+struct node *insert(struct node *node, int key) {
+  // Return a new node if the tree is empty
+  if (node == NULL) return newNode(key);
 
-def bank():
-    print("Welcome to the ATM")
-    print("Please enter your account number:")
-    account = input()
-    print("Enter your PIN:")
-    pin = input()
-    if account == "12345" and pin == "1234":
-        print("You are now logged in")
-        while(True):
-            print("Please choose from the following options:")
-            print("1. Check balance")
-            print("2. Withdraw cash")
-            print("3. Deposit funds")
-            print("4. Exit")
-            option = input()
-            if option == "1":
-                check_balance()
-            elif option == "2":
-                withdraw_bal()
-            elif option == "3":
-                deposit_bal()
-            elif option == "4":
-                print("Thank you for using the ATM")
-                exit()
-    else:
-        print("You entered an incorrect account number or PIN. Please try again.")
-        
-def info_person():
-    name = input("Enter your name: ")
-    aadhar = input("Enter your aadhar number: ")
-    mobile = input("Enter your mobile number: ")
-    print("Default Account number 12345")
-    with open("bank.csv", "w") as f:
-        f.write(name + "," + aadhar + "," + mobile+ "," + str(balance) +","+"12345"+ "\n")
-        
+  // Traverse to the right place and insert the node
+  if (key < node->key)
+    node->left = insert(node->left, key);
+  else
+    node->right = insert(node->right, key);
 
-def check_balance():
-    with open("bank.csv", "r") as f:
-        for line in f:
-            if "12345" in line:
-                balance = line.split(",")[3]
-                print("Your balance is: " + balance)
-    f.close()
+  return node;
+}
 
-def withdraw_bal():
-    print("Enter the account number: ")
-    account = input()
-    print("Enter the amount to withdraw: ")
-    withdraw = input()
-    with open("bank.csv", "r") as f:
-        for line in f:
-            if account in line:
-                balance = line.split(",")[3]
-                if int(withdraw) <= int(balance):
-                    with open("bank.csv", "r") as f:
-                        for line in f:
-                            if account in line:
-                                balance = line.split(",")[3]
-                                balance = int(balance) - int(withdraw)
-                                print("Your new balance is: " + str(balance))
-                    f.close()
-                    with open("bank.csv","w") as f:
-                        f.write(line.replace(line.split(",")[3], str(balance)))
-                    f.close()
-                else:
-                    print("You do not have enough funds")
-                    
-def deposit_bal():
-    print("Enter the account number: ")
-    account = input()
-    print("Enter the amount to deposit: ")
-    deposit = input()
-    with open("bank.csv", "r") as f:
-        for line in f:
-            if account in line:
-                balance = line.split(",")[3]
-                with open("bank.csv", "r") as f:
-                    for line in f:
-                        if account in line:
-                            balance = line.split(",")[3]
-                            balance = int(balance) + int(deposit)
-                            print("Your new balance is: " + str(balance))
-                f.close()
-                with open("bank.csv", "w") as f:
-                    f.write(line.replace(line.split(",")[3], str(balance)))
-                f.close()
-                
-def main():
-    info_person()
-    bank()
+// Find the inorder successor
+struct node *minValueNode(struct node *node) {
+  struct node *current = node;
 
-main()
+  // Find the leftmost leaf
+  while (current && current->left != NULL)
+    current = current->left;
 
+  return current;
+}
 
-3.
+// Deleting a node
+struct node *deleteNode(struct node *root, int key) {
+  // Return if the tree is empty
+  if (root == NULL) return root;
 
-# Accept first name, last name, username, password. the username must be unique. this should be stored in a json file and the password should be encrypted. Fetch the data from username.
+  // Find the node to be deleted
+  if (key < root->key)
+    root->left = deleteNode(root->left, key);
+  else if (key > root->key)
+    root->right = deleteNode(root->right, key);
 
-import json
+  else {
+    // If the node is with only one child or no child
+    if (root->left == NULL) {
+      struct node *temp = root->right;
+      free(root);
+      return temp;
+    } else if (root->right == NULL) {
+      struct node *temp = root->left;
+      free(root);
+      return temp;
+    }
 
-def createuser():
-    fname= input("Enter your first name: ")
-    lname= input("Enter your last name: ")
-    username= input("Enter your username: ")
-    password = input("Enter your password: ")
-    name = fname + " " + lname
-    
-    with open("user.json", "r") as f:
-        if username in f:
-            print("Username already exists")
-    f.close()
-    with open("user.json","w") as f:
-        json.dump({"name": name, "username": username, "password": password}, f)
-    f.close()
-    
-    
-def search_username():
-    username = input("Enter username To Find: ")
-    with open("user.json", "r") as f:
-        data = json.load(f)
-        for key, value in data.items():
-            if username in value:
-                # print(key, value)
-                # print("Name: " + value["name"])
-                # print("Username: " + value["username"])
-                print(value)
-        else:
-            print("Username not found")
-    f.close()
-    
-createuser()
-search_username()
+    // If the node has two children
+    struct node *temp = minValueNode(root->right);
+
+    // Place the inorder successor in position of the node to be deleted
+    root->key = temp->key;
+
+    // Delete the inorder successor
+    root->right = deleteNode(root->right, temp->key);
+  }
+  return root;
+}
+
+// Driver code
+int main() {
+  struct node *root = NULL;
+  root = insert(root, 8);
+  root = insert(root, 3);
+  root = insert(root, 1);
+  root = insert(root, 6);
+  root = insert(root, 7);
+  root = insert(root, 10);
+  root = insert(root, 14);
+  root = insert(root, 4);
+
+  printf("Inorder traversal: ");
+  inorder(root);
+
+  printf("\nAfter deleting 10\n");
+  root = deleteNode(root, 10);
+  printf("Inorder traversal: ");
+  inorder(root);
+}
 
   </pre>
   </body>
